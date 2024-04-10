@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using PlayerState = PlayerController.PlayerState;
+using AttackState = PlayerController.AttackState;
 
 public class AnimationBase : Satebase
 {
@@ -29,4 +30,8 @@ public class AnimationBase : Satebase
         _animator = this.GetComponent<Animator>();
     }
 
+    public override void UpdateAttackAnim(AttackState attackState)
+    {
+        _animator.SetFloat("ATTACK", (int)attackState);
+    }
 }

@@ -6,10 +6,14 @@ public class attackmove : MonoBehaviour
 {
     [SerializeField] float _speed;
     Rigidbody2D _rigi;
-    void Start()
+    private void OnEnable()
     {
         StartCoroutine(DisableTime());
+    }
+    void Start()
+    {
         _rigi = GetComponent<Rigidbody2D>();
+
     }
 
     void Update()

@@ -13,7 +13,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float _speed = 500, checkSpeed;
     [SerializeField] float _jumpForce;
     [SerializeField] PlayerState _playState = PlayerState.IDLE;
+    [SerializeField] AttackState _attackstate = AttackState.NOATTACK;
     [SerializeField] Satebase _satebase;
+    [SerializeField] AttackController _attack;
+
     bool _isGrounded = true;
     float _timeAttack = 0;
     Rigidbody2D _rigi;
@@ -39,9 +42,12 @@ public class PlayerController : MonoBehaviour
         ChangePlayer();
         UpdateState();
         if (_satebase != null)
+        {
             _satebase.UpdateAnimation(_playState);
-        // getPlayerSelect();
-        // Attack();
+        }
+        getPlayerSelect();
+        UpdateAttack();
+        _satebase.UpdateAttackAnim(_attackstate);
     }
     void UpdateState()
     {
@@ -109,23 +115,27 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-    // void Attack()
-    // {
-    //     if(Input.GetKeyDown(KeyCode.Space))
-    //     {
-    //         Debug.LogError("Attack");
-    //         _playState = PlayerState.ATTACK;
-    //         _attack.Attack();
-    //         return;
-    //     }
-    //     _playState = PlayerState.IDLE;
-    // }
+    void UpdateAttack()
+    {
+        if (Input.GetKey(KeyCode.Space))
+        {
+            Debug.LogError("Attack");
+            _attackstate = AttackState.ATTACK;
+            _attack.Attack();
+            return;
+        }
+        _attackstate = AttackState.NOATTACK;
+    }
     public enum PlayerState
     {
         IDLE,
         RUN,
         JUMP,
-        ATTACK,
         DIE
+    }
+    public enum AttackState
+    {
+        NOATTACK,
+        ATTACK
     }
 }
