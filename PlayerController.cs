@@ -114,6 +114,7 @@ public class PlayerController : MonoBehaviour
                 _speed = _speed * 2;
             }
         }
+
     }
     void UpdateAttack()
     {

@@ -5,10 +5,6 @@ using UnityEngine;
 public class GameManager : Singleton<GameManager>
 {
     [SerializeField] List<GameObject> _player = new List<GameObject>();
-    void Start()
-    {
-
-    }
 
     void Update()
     {
@@ -22,10 +18,12 @@ public class GameManager : Singleton<GameManager>
             if (player.GetComponent<PlayerController>().PlayerSelect == _player.IndexOf(player))
             {
                 player.GetComponent<PlayerController>().enabled = true;
+                player.transform.GetChild(1).gameObject.SetActive(true);
             }
             else
             {
                 player.GetComponent<PlayerController>().enabled = false;
+                player.transform.GetChild(1).gameObject.SetActive(false);
             }
         }
     }

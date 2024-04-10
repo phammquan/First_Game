@@ -8,6 +8,7 @@ using AttackState = PlayerController.AttackState;
 public class AnimationBase : Satebase
 {
     Animator _animator;
+    [SerializeField] PlayerController _player;
     public override void UpdateAnimation(PlayerState playerState)
     {
         for (int i = 0; i <= (int)PlayerState.DIE; i++)

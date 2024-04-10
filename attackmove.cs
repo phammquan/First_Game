@@ -29,4 +29,13 @@ public class attackmove : MonoBehaviour
         yield return new WaitForSeconds(1f);
         this.gameObject.SetActive(false);
     }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            Debug.LogError("Hit");
+            this.gameObject.SetActive(false);
+        }
+    }
 }

@@ -9,36 +9,49 @@ public class AttackController : MonoBehaviour
     float count = 0.75f;
     [SerializeField] PlayerController _playerController;
     [SerializeField] float _timeAttack = 0;
+    GameObject bullet;
+    Collider2D attackarea;
     void Start()
     {
+
 
     }
 
     void Update()
     {
         _timeAttack -= Time.deltaTime;
+        if (_playerController.getPlayerSelect() == 0)
+        {
+            attackarea = this.GetComponent<Collider2D>();
+        }
+        else
+        {
+            attackarea = null;
+        }
+        //attackarea.enabled = false;
+
     }
     public void Attack()
     {
         if (_timeAttack > 0)
             return;
-        if (_playerController.getPlayerSelect() == 1)
+        if (_playerController.getPlayerSelect() == 0)
         {
-            GameObject arrow = Object_Pooling.Instance.getPreFabs(_arrow);
-            arrow.transform.position = _playerController.transform.position;
-            arrow.transform.rotation = Quaternion.Euler(0, 0, this.transform.parent.localScale.x == 1 ? 0 : 180);
-            arrow.SetActive(true);
+            attackarea.enabled = true;
             _timeAttack = count;
+            return;
         }
-        if (_playerController.getPlayerSelect() == 2)
+        else if (_playerController.getPlayerSelect() == 1)
         {
-            GameObject magic = Object_Pooling.Instance.getPreFabs(_magic);
-            magic.transform.position = _playerController.transform.position;
-            magic.transform.rotation = Quaternion.Euler(0, 0, this.transform.parent.localScale.x == 1 ? 0 : 180);
-            magic.SetActive(true);
-            _timeAttack = count;
+            bullet = Object_Pooling.Instance.getPreFabs(_arrow);
         }
-
-
+        else if (_playerController.getPlayerSelect() == 2)
+        {
+            bullet = Object_Pooling.Instance.getPreFabs(_magic);
+        }
+        bullet.transform.position = _playerController.transform.position;
+        bullet.transform.rotation = Quaternion.Euler(0, 0, this.transform.parent.localScale.x == 1 ? 0 : 180);
+        bullet.SetActive(true);
+        _timeAttack = count;
     }
 }
