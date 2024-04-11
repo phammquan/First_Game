@@ -4,25 +4,18 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    static int _playerSelect;
-    public int PlayerSelect => _playerSelect;
-    public int getPlayerSelect()
-    {
-        return _playerSelect;
-    }
     [SerializeField] float _speed = 500, checkSpeed;
     [SerializeField] float _jumpForce;
     [SerializeField] PlayerState _playState = PlayerState.IDLE;
     [SerializeField] AttackState _attackstate = AttackState.NOATTACK;
-    [SerializeField] Satebase _satebase;
+    Satebase _satebase;
     [SerializeField] AttackController _attack;
 
-    bool _isGrounded = true;
+    [SerializeField] bool _isGrounded = true;
     float _timeAttack = 0;
     Rigidbody2D _rigi;
     void Start()
     {
-        _playerSelect = 0;
         checkSpeed = _speed;
         _rigi = this.GetComponent<Rigidbody2D>();
         _satebase = this.transform.GetChild(0).gameObject.GetComponent<AnimationBase>();
@@ -39,13 +32,11 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         move();
-        ChangePlayer();
         UpdateState();
         if (_satebase != null)
         {
             _satebase.UpdateAnimation(_playState);
         }
-        getPlayerSelect();
         UpdateAttack();
         _satebase.UpdateAttackAnim(_attackstate);
     }
@@ -86,24 +77,6 @@ public class PlayerController : MonoBehaviour
             _isGrounded = false;
         }
     }
-    void ChangePlayer()
-    {
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            if (_playerSelect < 2)
-            {
-                _playerSelect++;
-            }
-            else
-            {
-                _playerSelect = 0;
-            }
-            if (this.GetComponent<PlayerController>().isActiveAndEnabled)
-            {
-                this.GetComponent<PlayerController>().enabled = false;
-            }
-        }
-    }
     private void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.CompareTag("Platform") || other.gameObject.CompareTag("Player"))
@@ -132,7 +105,6 @@ public class PlayerController : MonoBehaviour
         IDLE,
         RUN,
         JUMP,
-        DIE
     }
     public enum AttackState
     {

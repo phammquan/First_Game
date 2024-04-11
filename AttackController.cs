@@ -4,48 +4,34 @@ using UnityEngine;
 
 public class AttackController : MonoBehaviour
 {
+    [SerializeField] GameObject _sword;
     [SerializeField] GameObject _arrow;
     [SerializeField] GameObject _magic;
+
+
     float count = 0.75f;
     [SerializeField] PlayerController _playerController;
     [SerializeField] float _timeAttack = 0;
     GameObject bullet;
-    Collider2D attackarea;
-    void Start()
-    {
-
-
-    }
 
     void Update()
     {
         _timeAttack -= Time.deltaTime;
-        if (_playerController.getPlayerSelect() == 0)
-        {
-            attackarea = this.GetComponent<Collider2D>();
-        }
-        else
-        {
-            attackarea = null;
-        }
-        //attackarea.enabled = false;
 
     }
     public void Attack()
     {
         if (_timeAttack > 0)
             return;
-        if (_playerController.getPlayerSelect() == 0)
+        if (GameManager.Instance.PlayerSelect == 0)
         {
-            attackarea.enabled = true;
-            _timeAttack = count;
-            return;
+            bullet = Object_Pooling.Instance.getPreFabs(_sword);
         }
-        else if (_playerController.getPlayerSelect() == 1)
+        else if (GameManager.Instance.PlayerSelect == 1)
         {
             bullet = Object_Pooling.Instance.getPreFabs(_arrow);
         }
-        else if (_playerController.getPlayerSelect() == 2)
+        else if (GameManager.Instance.PlayerSelect == 2)
         {
             bullet = Object_Pooling.Instance.getPreFabs(_magic);
         }
